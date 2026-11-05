@@ -1,0 +1,67 @@
+[
+  {
+    "point": "visual_scene",
+    "name": "game_control",
+    "params": {
+      "mode": "optional"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "game_control",
+    "params": {}
+  },
+  {
+    "point": "extension_process",
+    "name": "detection_extension",
+    "params": {
+      "field_type": "adult_size",
+      "yolo_export_enabled": "false",
+      "yolo_export_dir": "./yolo_dataset",
+      "yolo_export_skip_interval": "6"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "rgb_publisher_extension",
+    "params": {
+      "enable_compression": "true",
+      "jpeg_quality": "88"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "speaker_relay_extension",
+    "params": {
+      "topic": "/speaker_audio"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "pulse_speaker_bridge_extension",
+    "params": {
+      "source": "alsa_output.usb-booster-virtual.monitor",
+      "topic": "/speaker_audio"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "pulse_microphone_bridge_extension",
+    "params": {
+      "source": "alsa_input.usb-booster-virtual",
+      "fifo": "/tmp/booster_mic_fifo",
+      "sample_rate": "16000",
+      "volume": "1.0"
+    }
+  },
+  {
+    "point": "extension_process",
+    "name": "depth_publisher_extension",
+    "params": {}
+  },
+  {
+    "point": "extension_process",
+    "name": "pose_publisher_extension",
+    "params": {}
+  }
+]

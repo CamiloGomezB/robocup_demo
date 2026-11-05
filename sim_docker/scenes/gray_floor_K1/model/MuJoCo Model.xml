@@ -1,0 +1,77 @@
+<mujoco model="MuJoCo Model">
+  <!-- Escena de prueba: piso gris uniforme (sin lineas de cancha), los dos arcos y la pelota en el centro.
+       Derivada de football_pitch_K1: mismas medidas de arcos (x = +-7, ancho 2.6 m) y misma pelota.
+       Paredes bajas lisas donde estaban las vallas, para que la pelota no se escape del area. -->
+  <compiler angle="radian"/>
+
+  <statistic extent="2"/>
+
+  <default>
+    <default class="robot1_main"/>
+  </default>
+
+  <asset>
+    <texture type="cube" colorspace="linear" name="ball" fileright="ball_right.png" fileleft="ball_left.png" fileup="ball_up.png" filedown="ball_down.png" filefront="ball_front.png" fileback="ball_back.png"/>
+    <texture type="skybox" colorspace="linear" name="skybox" fileright="sky_right.png" fileleft="sky_left.png" fileup="sky_up.png" filedown="sky_down.png" filefront="sky_front.png" fileback="sky_back.png"/>
+    <material name="floor_gray" rgba="0.5 0.5 0.5 1" shininess="0" specular="0"/>
+    <material name="wall_gray" rgba="0.35 0.35 0.35 1" shininess="0" specular="0"/>
+    <material name="ball" texture="ball"/>
+  </asset>
+
+  <worldbody>
+    <!-- El plano es infinito para la fisica, pero solo se dibuja en este tamaño: lo hago grande para que nunca "flote" -->
+    <geom name="pitch" size="30 30 0.1" type="plane" material="floor_gray"/>
+    <geom name="wall_front" size="9 0.05 0.4" pos="0 6 0.4" type="box" material="wall_gray"/>
+    <geom name="wall_back" size="9 0.05 0.4" pos="0 -6 0.4" type="box" material="wall_gray"/>
+    <geom name="wall_left" size="0.05 6 0.4" pos="-9 0 0.4" type="box" material="wall_gray"/>
+    <geom name="wall_right" size="0.05 6 0.4" pos="9 0 0.4" type="box" material="wall_gray"/>
+    <light pos="0 0 1.3" dir="0 0 -1" type="directional" cutoff="100" exponent="1" diffuse="1 1 1" specular="0.1 0.1 0.1"/>
+    <body name="goal-left" pos="-7 0 0">
+      <geom name="goal-left-front-left-post" size="0.05 0.9" pos="0 -1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-front-right-post" size="0.05 0.9" pos="0 1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-left-post" size="0.05 0.9" pos="-0.6 -1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-right-post" size="0.05 0.9" pos="-0.6 1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-front-left-corner" size="0.05 0.9" pos="0 -1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-front-right-corner" size="0.05 0.9" pos="0 1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-left-corner" size="0.05 0.9" pos="-0.6 -1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-right-corner" size="0.05 0.9" pos="-0.6 1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-front-crossbar" size="0.05 1.3" pos="0 0 1.8" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-crossbar" size="0.05 1.3" pos="-0.6 0 1.8" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-left-side-crossbar" size="0.05 0.3" pos="-0.3 -1.3 1.8" quat="0 -0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-right-side-crossbar" size="0.05 0.3" pos="-0.3 1.3 1.8" quat="0 0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-back-lower-crossbar" size="0.05 1.3" pos="-0.6 0 0" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-lower-left-side-crossbar" size="0.05 0.3" pos="-0.3 -1.3 0" quat="0 -0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-lower-right-side-crossbar" size="0.05 0.3" pos="-0.3 1.3 0" quat="0 0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-left-top-net" size="0.3 1.3 0.05" pos="-0.3 0 1.8" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-left-back-net" size="0.05 1.3 0.9" pos="-0.6 0 0.9" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-left-left-side-net" size="0.3 0.05 0.9" pos="-0.3 -1.3 0.9" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-left-right-side-net" size="0.3 0.05 0.9" pos="-0.3 1.3 0.9" type="box" rgba="1 1 1 0.2"/>
+    </body>
+    <body name="goal-right" pos="7 0 0">
+      <geom name="goal-right-front-left-post" size="0.05 0.9" pos="0 -1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-front-right-post" size="0.05 0.9" pos="0 1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-left-post" size="0.05 0.9" pos="0.6 -1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-right-post" size="0.05 0.9" pos="0.6 1.3 0.9" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-front-left-corner" size="0.05 0.9" pos="0 -1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-front-right-corner" size="0.05 0.9" pos="0 1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-left-corner" size="0.05 0.9" pos="0.6 -1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-right-corner" size="0.05 0.9" pos="0.6 1.3 0.9" type="capsule" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-front-crossbar" size="0.05 1.3" pos="0 0 1.8" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-crossbar" size="0.05 1.3" pos="0.6 0 1.8" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-left-side-crossbar" size="0.05 0.3" pos="0.3 -1.3 1.8" quat="0 0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-right-side-crossbar" size="0.05 0.3" pos="0.3 1.3 1.8" quat="0 -0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-back-lower-crossbar" size="0.05 1.3" pos="0.6 0 0" quat="0 0 0.707107 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-lower-left-side-crossbar" size="0.05 0.3" pos="0.3 -1.3 0" quat="0 0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-lower-right-side-crossbar" size="0.05 0.3" pos="0.3 1.3 0" quat="0 -0.707107 0 0.707107" type="cylinder" rgba="0.8 0.8 0.8 1"/>
+      <geom name="goal-right-top-net" size="0.3 1.3 0.05" pos="0.3 0 1.8" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-right-back-net" size="0.05 1.3 0.9" pos="0.6 0 0.9" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-right-left-side-net" size="0.3 0.05 0.9" pos="0.3 -1.3 0.9" type="box" rgba="1 1 1 0.2"/>
+      <geom name="goal-right-right-side-net" size="0.3 0.05 0.9" pos="0.3 1.3 0.9" type="box" rgba="1 1 1 0.2"/>
+    </body>
+    <body name="ball" pos="0 0 0.11">
+      <joint name="ball-root" type="free"/>
+      <geom name="ball" size="0.11" condim="6" priority="1" friction="0.4 0.01 0.01" solref="-5000 -20" mass="0.41" material="ball" rgba="1 1 1 1"/>
+    </body>
+    <frame name="__booster_robot_frame_robot1"/>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,37 @@
+# Configuracion del Striker para el Booster K1 REAL. Se carga encima de striker.yaml
+# (ros2 launch striker_mode striker.launch.py config:=striker_real_k1.yaml).
+#
+# Prioridad: la seguridad del robot. El Striker solo pide al firmware que camine (kMove) y mueva la cabeza
+# (kRotateHead); NUNCA cambia el modo del robot. Lo prende y lo apaga el operador con el control remoto:
+#   ACTIVAR:    mantener LB + RB + Y durante 1 s (el robot tiene que estar ya en Walking, mirando al arco rival)
+#   DESACTIVAR: LB + RB + X  (o mover cualquier stick: el operador toma el control)
+#   EMERGENCIA: LT + BACK (amortiguacion del firmware). El Striker lo detecta y se desactiva solo.
+striker_node:
+  ros__parameters:
+    # --- Activacion y seguridad ---
+    control_source: remote        # solo el control remoto activa el Striker (se ignora "play" por topico)
+    restore_walking_mode: false   # jamas cambia el modo: si el robot sale de Walking, el Striker se desactiva
+    stop_on_vision_loss: true     # sin detecciones de la vision por mas de vision_timeout -> se detiene
+    vision_timeout: 1.0
+    remote_hold_time: 1.0         # s manteniendo LB+RB+Y para activar (evita activaciones por accidente)
+    stick_deadzone: 0.1
+    kick_mode: walk               # patea empujando caminando (sin kVisualKick ni cambios de modo)
+    search_walk_dist: 0.0         # no camina a ciegas buscando la pelota: solo gira en el lugar
+    debug_sim: false
+
+    # --- Orientacion ---
+    # Al activar, el rumbo de ataque es hacia donde mira el robot: apuntalo al arco rival antes de activar
+    attack_offset: 0.0
+    attack_yaw: 999.0
+    odom_factor: 0.8              # escala de /odometer_state en el K1 (valor del demo oficial)
+
+    # --- Velocidades conservadoras para las primeras pruebas (subir de a poco cuando todo funcione) ---
+    vx_max: 0.4
+    vy_max: 0.3
+    vyaw_max: 0.6
+    approach_speed: 0.35
+    dribble_speed: 0.2
+    shot_speed: 0.5
+    kick_speed: 0.4
+    search_turn_speed: 0.3
+    acquire_turn_speed: 0.3

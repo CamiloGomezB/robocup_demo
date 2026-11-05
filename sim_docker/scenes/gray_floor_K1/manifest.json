@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "gray_floor_K1",
+  "name": "Gray Floor Goals",
+  "version": "1.0.0",
+  "type": "scene",
+  "author": "",
+  "description": "K1: piso gris uniforme sin lineas, dos arcos y la pelota en el centro",
+  "dependencies": [
+    {
+      "kind": "asset",
+      "asset_type": "robot",
+      "preferred_key": "robot_k1",
+      "robot_model": "K1",
+      "required": true,
+      "builtin_id": "builtin-asset-robot_k1",
+      "builtin_revision": "2026.08.2",
+      "sha256": "a5fd25f0abfd1975cc1a4cefa3c6385d054f21d0790334e5b8545d7200fee75c"
+    }
+  ],
+  "robot_model": "K1",
+  "robot_instances": [
+    {
+      "kind": "robot",
+      "name": "robot1",
+      "asset_key": "robot_k1",
+      "robot_model": "K1",
+      "root_body": "robot1_Trunk",
+      "pos": [
+        -5.0,
+        5.0,
+        0.0
+      ],
+      "quat": [
+        0.7073882691671998,
+        0.0,
+        0.0,
+        -0.706825181105366
+      ]
+    }
+  ],
+  "runtime_profile": "standard",
+  "scene_policy": {
+    "entry": "selectable",
+    "switch_away": true,
+    "edit": true
+  },
+  "legacy_fallback": "football",
+  "is_default": false,
+  "origin": "user",
+  "deletable": true,
+  "created_at": "2026-11-04T12:00:00Z",
+  "thumbnail": {
+    "path": "thumbnail.webp",
+    "mime_type": "image/webp",
+    "sha256": "25fc17e09a2ba0a9b74dbfc7da89879eb5c6a58490d4eece6bc071497aa57548"
+  }
+}

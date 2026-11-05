@@ -1,0 +1,2 @@
+# Los scripts corren en el robot (Linux): siempre con fin de linea LF, aunque se clone en Windows
+*.sh text eol=lf

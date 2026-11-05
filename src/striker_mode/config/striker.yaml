@@ -1,0 +1,72 @@
+striker_node:
+  ros__parameters:
+    # Configuracion del SIM. El robot real carga encima striker_real_k1.yaml (config:=striker_real_k1.yaml).
+    # Por defecto (sin ponerlos aca): control_source topic, kick_mode walk, autostart false, debug_sim false.
+    # Se pueden pasar como argumentos del launch, p. ej. kick_mode:=visual (solo sim) o autostart:=true.
+    attack_offset: 1.5708   # arco rival = rumbo al dar play + offset. Entrando por la banda izquierda: +pi/2; derecha: -pi/2
+    attack_yaw: 999.0       # rumbo absoluto del arco rival en el marco de la IMU; 999 = usar attack_offset (en el sim: 0.0)
+    ball_memory_close: 3.0
+    ball_conf_min: 40.0
+    ball_conf_low: 20.0     # detecciones debiles: se aceptan solo cerca de donde venia la pelota
+    ball_gate: 0.8          # m: de cerca, cuanto puede moverse la pelota entre cuadros y seguir siendo la misma
+    ball_gate_yaw: 0.15     # rad: de lejos se compara en angulo...
+    ball_gate_range: 0.35   # ...y en distancia relativa (de lejos la distancia estimada es ruidosa)
+    candidate_hold: 1.2     # s: en la busqueda, si ve algo que parece la pelota, se queda mirandolo
+    post_conf_min: 30.0
+    ball_memory: 1.5
+    # Seguidor del arco rival (se recuerda en odometria, aunque no se este viendo)
+    goal_width: 2.6
+    goal_fresh: 4.0         # s: el arco cuenta como "visto hace poco"
+    goal_init_cone: 1.0     # rad alrededor del rumbo de ataque para registrar el arco rival la primera vez
+    goal_near_range: 7.0    # m: postes mas cerca corrigen la distancia; mas lejos, solo la direccion
+    odom_factor: 1.0        # escala de /odometer_state (medido en el sim: ~1.0-1.1; el demo usa 0.8 en el K1 real)
+    # Acomodar la pelota frente al arco antes de tirar
+    setup_dist: 3.0         # m delante del arco: punto al que lleva la pelota si quedo mal ubicada
+    setup_max_angle: 0.6    # rad (~35 grados): angulo de tiro peor que esto -> primero acomoda
+    setup_exit_angle: 0.4   # rad (~23 grados): con angulo mejor que esto deja de acomodar
+    setup_front: 0.8        # m: pelota a menos de esto de la linea de fondo y al costado del arco -> acomoda
+    setup_align_tol: 0.5    # rad: para acomodar alcanza con estar mas o menos detras de la pelota
+    align_timeout: 8.0      # s rodeando la pelota sin lograrlo -> se conforma con el doble de tolerancia (no al tirar)
+    robot_height: 0.8
+    vx_max: 0.8
+    vy_max: 0.4
+    vyaw_max: 1.0
+    min_vx: 0.2
+    min_vy: 0.2
+    min_vyaw: 0.25
+    near_dist: 1.0
+    align_dist: 0.5
+    align_tol: 0.25
+    # Zona de tiro ~ area grande (adult_size: 3 m de fondo x 6 m de ancho; la esquina queda a ~4.2 m del arco)
+    shoot_dist_min: 1.0     # pelota a menos de esto del arco (area chica): la empuja adentro, no patea
+    shoot_dist_max: 4.3     # pelota a mas de esto del arco: la conduce con toques suaves
+    shoot_align_tol: 0.10   # alineacion fina (rad) antes de patear; se toma el tiempo que necesite
+    dribble_touch_time: 1.2 # duracion de cada toque; despues levanta la vista para medir el arco
+    quick_kick_tol: 0.2     # "patearlo de una" solo si ya esta casi alineado
+    dribble_speed: 0.2      # toques suaves para no perder el control
+    dribble_max_time: 20.0  # si nunca ve el arco: tras esto conduciendo, patea igual hacia el rumbo de ataque
+    kick_speed: 0.5         # patada para devolver la pelota a la cancha
+    shot_speed: 0.7         # tiro al arco desde la zona de tiro
+    shot_settle_time: 1.0   # antes del tiro: quieto y alineado este tiempo seguido
+    shot_goal_fresh: 6.0    # antes del tiro: postes de los dos lados vistos de cerca hace menos de esto (si no, los busca)
+    kick_time: 1.2
+    scan_step_time: 1.0     # busqueda: quieto este tiempo en cada punto del barrido de cabeza
+    search_turn_speed: 0.3  # si el barrido no la encuentra, gira el cuerpo despacio...
+    search_turn_step: 0.785 # ...45 grados (medidos con la IMU) y vuelve a barrer con la cabeza
+    search_turn_timeout: 8.0
+    search_settle_time: 0.8 # quieto tras cada giro antes de volver a barrer
+    acquire_turn_speed: 0.3 # giro maximo mientras fija la pelota / se corrige hacia ella
+    search_walk_dist: 2.0   # si una vuelta completa no la encuentra, camina esto (hacia el frente del arco) y busca de nuevo
+    acquire_time: 1.5       # al ver la pelota: quieto este tiempo fijandola antes de caminar
+    acquire_hits: 4         # detecciones minimas en ese tiempo para creerle
+    approach_turn_tol: 0.4  # rad: si la pelota queda mas de costado, deja de avanzar y gira en el lugar
+    approach_speed: 0.5     # velocidad maxima yendo hacia la pelota
+    look_back_time: 2.0     # al perderla: quieto mirando donde la vio por ultima vez antes de barrer
+    visual_kick_time: 5.0
+    # Pelota afuera (lineas de la cancha + IMU)
+    line_min_len: 0.6       # segmentos de linea mas cortos se ignoran
+    out_margin: 0.4         # cuanto tiene que pasar la pelota la linea de borde
+    out_line_min_len: 1.2   # un borde tiene que verse como un segmento largo
+    out_confirm: 3          # detecciones seguidas para darla por afuera
+    out_memory: 6.0
+    recover_attack_blend: 0.5  # al devolverla: 0 = perpendicular al borde, mas = mas inclinada hacia el arco rival
