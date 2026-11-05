@@ -65,7 +65,7 @@ sudo apt-get install -y ros-humble-backward-ros   # dependencia del repo (ver RE
 2. En el robot:
    ```bash
    cd ~/Workspace/robocup_striker
-   ./deploy/striker_start.sh --fg
+   bash deploy/striker_start.sh --fg
    ```
    El script detiene cualquier `brain` o visión anterior, corre el **chequeo previo** y arranca la visión y el
    Striker **en espera**. Si el chequeo falla, no arranca nada.
@@ -73,7 +73,7 @@ sudo apt-get install -y ros-humble-backward-ros   # dependencia del repo (ver RE
 4. **Activa** con LB + RB + Y (1 s). **Desactiva** con LB + RB + X.
 5. Para cerrar todo:
    ```bash
-   ./deploy/striker_stop.sh
+   bash deploy/striker_stop.sh
    ```
    Manda velocidad 0 antes de cerrar los programas. El robot queda en su modo actual, parado.
 
@@ -93,7 +93,7 @@ Sin `--fg` corre en segundo plano y los logs quedan en `deploy/logs/` (`striker.
 ### Chequeo por separado
 
 ```bash
-./deploy/striker_check.sh
+bash deploy/striker_check.sh
 ```
 
 Solo lee; no mueve el robot. Revisa:
@@ -106,7 +106,7 @@ Solo lee; no mueve el robot. Revisa:
 ### Cambiar los tópicos de la cámara
 
 ```bash
-CAMERA_COLOR=/mi/camara/rgb CAMERA_INFO=/mi/camara/rgb/camera_info ./deploy/striker_start.sh --fg
+CAMERA_COLOR=/mi/camara/rgb CAMERA_INFO=/mi/camara/rgb/camera_info bash deploy/striker_start.sh --fg
 ```
 
 ## Configuración

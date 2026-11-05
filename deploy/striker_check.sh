@@ -1,7 +1,7 @@
 #!/bin/bash
 # Chequeo previo (SOLO LECTURA) antes de arrancar el Striker en el K1 real.
 # No mueve el robot ni cambia nada: solo revisa que todo lo necesario este disponible.
-# Uso (en el robot):  ./deploy/striker_check.sh
+# Uso (en el robot):  bash deploy/striker_check.sh
 cd "$(dirname "$0")/.." || exit 1
 ROOT=$(pwd)
 
