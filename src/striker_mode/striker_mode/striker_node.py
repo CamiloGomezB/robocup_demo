@@ -590,7 +590,17 @@ class StrikerNode(Node):
     def on_image_raw(self, msg):
         import cv2
         import numpy as np
-        if not self.fallback_due() or msg.encoding not in ('bgr8', 'rgb8'):
+        if msg.encoding not in ('bgr8', 'rgb8', 'nv12'):
+            if not getattr(self, 'fb_bad_encoding_warned', False):
+                self.fb_bad_encoding_warned = True
+                self.get_logger().warn(f'Detector de respaldo: formato de imagen {msg.encoding} no soportado')
+            return
+        if not self.fallback_due():
+            return
+        if msg.encoding == 'nv12':
+            # Camara de la cabeza del K1 real: plano Y + plano UV intercalado (como vision/img_bridge.cpp)
+            yuv = np.frombuffer(msg.data, np.uint8).reshape(msg.height * 3 // 2, msg.step)[:, :msg.width]
+            self.run_fallback(cv2.cvtColor(np.ascontiguousarray(yuv), cv2.COLOR_YUV2BGR_NV12))
             return
         img = np.frombuffer(msg.data, np.uint8).reshape(msg.height, msg.step // 3, 3)[:, :msg.width]
         self.run_fallback(img if msg.encoding == 'bgr8' else cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
